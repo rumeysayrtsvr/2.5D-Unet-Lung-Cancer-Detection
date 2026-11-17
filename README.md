@@ -5,6 +5,8 @@ Akciğer kanseri için iki derin öğrenme modelini bir Flask web arayüzünde b
 1. **CT Tümör Segmentasyonu**: 2.5D DenseUNet (PyTorch). Ardışık 3 CT slice'ını (önceki, orta, sonraki) 3 kanallı girdi olarak alır ve ortadaki slice için tümör maskesi üretir. NLSTseg veri seti üzerinde eğitildi.
 2. **Histopatoloji Sınıflandırması**: ResNet50 (PyTorch). Akciğer doku görüntüsünü *Adenocarcinoma*, *Squamous Cell Carcinoma* veya *Normal* olarak sınıflandırır. LC25000 veri seti üzerinde eğitildi.
 
+![Lung AI Systems arayüzü](docs/screenshot.png)
+
 > ⚠️ Bu proje eğitim ve araştırma amaçlıdır. Klinik tanı için kullanılamaz.
 
 ## Kurulum
