@@ -1,0 +1,20 @@
+# Veri setleri (çok büyük, depoya eklenmez)
+NLST_2D/
+NLST_2D_TUMOR_ONLY/
+NLST_2D_BALANCED/
+NLSTseg_raw/
+lung_colon_image_set/
+
+# Uygulamanın çalışırken ürettiği dosyalar
+static/uploads/
+static/outputs/
+static/results/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# macOS
+.DS_Store

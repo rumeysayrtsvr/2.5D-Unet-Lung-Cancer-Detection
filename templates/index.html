@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lung AI Systems</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1f2a44;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #111;
+        }
+
+        header {
+            text-align: center;
+            padding: 35px 20px 15px;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #ffffff;
+            font-size: 36px;
+        }
+
+        header p {
+            margin-top: 8px;
+            color: #ffffff;
+            font-size: 15px;
+        }
+
+        .container {
+            display: flex;
+            gap: 30px;
+            max-width: 1400px;
+            margin: auto;
+            padding: 30px;
+            align-items: stretch;
+        }
+
+        .card {
+            background: white;
+            flex: 1;
+            border-radius: 16px;
+            padding: 28px 26px 30px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card h2 {
+            text-align: center;
+            color: #1f2a44; 
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        select, input[type="number"], input[type="file"] {
+            width: 75%;
+            padding: 10px;
+            font-size: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            margin-top: 8px;
+            padding: 12px;
+            width: 75%;
+            font-size: 16px;
+            background: #2ecc71;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+        }
+
+        button:hover {
+            background: #27ae60;
+        }
+
+        .result {
+            margin-top: 22px;
+            text-align: center;
+        }
+
+        /* ========================= */
+        /* 🫁 CT RESULT (TEK BÜYÜK FIGÜR) */
+        /* ========================= */
+        .ct-result {
+            display: flex;
+            justify-content: center;
+            margin-top: 18px;
+        }
+
+        .ct-result img {
+            width: 90%;              /* 🔥 ANA ÇÖZÜM */
+            max-width: 900px;
+            height: auto;            /* 🔥 ORAN KORUNUR */
+            object-fit: contain;
+            background: black;
+            border-radius: 14px;
+            border: 1px solid #ddd;
+        }
+
+        /* ========================= */
+        /* 🔬 HISTO IMAGE */
+        /* ========================= */
+        .histo-img {
+            margin-top: 12px;
+            width: 320px;          /* 🔥 CT ile aynı */
+            height: 320px;         /* 🔥 kare form */
+            object-fit: contain;   /* oran bozulmaz */
+            border-radius: 14px;
+            border: 1px solid #ddd;
+    background: #fff;
+}
+
+
+        .prediction {
+            font-size: 18px;
+            margin-top: 12px;
+        }
+
+        .confidence {
+            font-size: 16px;
+            color: #444;
+            margin-top: 6px;
+        }
+
+        .warning {
+            text-align: center;
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 1000px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🫁 Lung AI Systems</h1>
+    <p>CT Tumor Segmentation & Histopathology Classification</p>
+</header>
+
+<div class="container">
+
+    <!-- 🫁 CT SEGMENTATION -->
+<div class="card">
+    <h2>🫁 CT Tumor Segmentation</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <input 
+                type="file"
+                name="ct_slices"
+                accept=".npy"
+                multiple
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <button name="run_ct_upload">
+                Run Segmentation
+            </button>
+        </div>
+
+    </form>
+
+    {% if result_image %}
+    <div class="result ct-result">
+        <img src="{{ url_for('static', filename=result_image) }}">
+    </div>
+    {% endif %}
+</div>
+
+
+
+    <!-- 🔬 HISTOPATHOLOGY -->
+    <div class="card">
+        <h2>🔬 Histopathology Classification</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file" name="histo_image" accept="image/*" required>
+            </div>
+
+            <div class="form-group">
+                <button name="run_histo">Classify Image</button>
+            </div>
+        </form>
+
+        {% if histo_label %}
+        <div class="result">
+            <div class="prediction">
+                <strong>Prediction:</strong> {{ histo_label }}
+            </div>
+            <div class="confidence">
+                <strong>Confidence:</strong> {{ histo_conf | round(2) }}%
+            </div>
+
+            <img class="histo-img"
+                 src="{{ url_for('static', filename=histo_image) }}">
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+</body>
+</html>
